@@ -1,4 +1,16 @@
 {% extends "bootstrap/base.html"%}
+{%block scripts%}
+{{super()}}
+{{moment.include_moment()}}
+{{moment.lang('cn')}}
+{%endblock%}
+{%block head%}
+{{ super() }}
+<link rel="shortcut icon" href="{{url_for('static', filename='favicon.ico')}}"
+      type="imgae/x-icon"/>
+<link rel="icon" href="{{url_for('static', filename='favicon.ico')}}"
+      type="imgae/x-icon"/>
+{%endblock%}
 {%block title%}Flasky{%endblock%}
 {%block navbar %}
 <div class="navbar navbar-inverse" role="navigation">
