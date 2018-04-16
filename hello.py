@@ -1,5 +1,5 @@
 from flask import Flask,render_template,session,redirect,url_for,flash
-from flask_script import Manager
+from flask_script import Manager,Shell
 from flask_bootstrap import Bootstrap
 from flask_moment import Moment
 from flask_wtf import Form
@@ -7,6 +7,8 @@ from flask_sqlalchemy import SQLAlchemy
 from wtforms import StringField, SubmitField
 from wtforms.validators import Required
 from datetime import datetime
+from flask_migrate import Migrate, MigrateCommand
+
 import os
 
 basedir  = os.path.abspath(os.path.dirname(__file__))
@@ -83,6 +85,12 @@ def internal_server_error(e):
 def user(name):
     return render_template('user.html', name=name)
 
+
+def make_shell_context():
+    return dict(app=app, db=db, User=User, Role=Role)
+migrate = Migrate(app, db)
+manager.add_command("shell",Shell(make_context=make_shell_context))
+manager.add_command('db', MigrateCommand)
 if __name__=='__main__':
-    app.run(debug=True)
-    # manager.run()
+    # app.run(debug=True)
+    manager.run()
